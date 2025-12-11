@@ -1,0 +1,33 @@
+#!/usr/bin/env bash
+
+# Taps
+brew tap nikitabobko/tap
+
+# Brews
+brew install mise
+
+# Casks (alphabetical)
+brew install --cask 1password
+brew install --cask aerospace
+brew install --cask alt-tab
+brew install --cask anki
+brew install --cask claude
+brew install --cask cursor
+brew install --cask discord
+brew install --cask dropbox
+brew install --cask ghostty
+brew install --cask google-chrome
+brew install --cask hiddenbar
+brew install --cask jagex
+brew install --cask karabiner-elements
+brew install --cask logitech-g-hub
+brew install --cask morgen
+brew install --cask nvidia-geforce-now
+brew install --cask obsidian
+brew install --cask protonvpn
+brew install --cask raycast
+brew install --cask rectangle-pro
+brew install --cask screen-studio
+brew install --cask signal
+brew install --cask slack
+brew install --cask textsniper

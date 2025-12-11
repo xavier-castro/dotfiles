@@ -1,0 +1,68 @@
+#!/usr/bin/env bash
+
+# Core CLI tools
+brew install coreutils
+brew install git
+brew install gh
+brew install curl
+brew install tree
+brew install htop
+brew install jq
+brew install wget
+
+# Search & navigation
+brew install fzf
+brew install fd
+brew install ripgrep
+brew install zoxide
+
+# Better CLI alternatives
+brew install bat
+brew install eza
+
+# Shell & prompt
+brew install starship
+
+# Editors & TUI tools
+brew install neovim
+brew install tmux
+brew install lazygit
+brew install lazydocker
+
+# Dev utilities
+brew install gum
+brew install tree-sitter
+brew install ispell
+brew install libtool
+
+# Clojure
+brew install babashka
+
+# JavaScript/TypeScript
+brew install node
+brew install typescript
+brew install typescript-language-server
+brew install prettier
+brew install tailwindcss
+
+# Note: vscode-langservers-extracted and tailwindcss-language-server
+# are typically installed via npm:
+npm install -g vscode-langservers-extracted
+npm install -g @tailwindcss/language-server
+
+# Nix tools
+brew install nixfmt
+brew install nil
+
+# AI coding tools
+brew install claude-code || echo "claude-code not available via brew, install manually"
+
+# Programming languages
+brew install go
+brew install python3
+brew install rustup-init
+
+# Initialize Rust (skip if already installed)
+if ! command -v rustc &> /dev/null; then
+    rustup-init -y --no-modify-path
+fi

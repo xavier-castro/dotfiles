@@ -1,0 +1,4 @@
+#!/usr/bin/env bash
+
+# Copy config files to their destinations
+$DEV_ENV/dev/dev-env
