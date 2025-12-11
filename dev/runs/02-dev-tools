@@ -1,78 +1,141 @@
 #!/usr/bin/env bash
 
+# Helper function to install brew package only if not already installed
+brew_install() {
+  if brew list "$1" &>/dev/null; then
+    echo "✓ $1 already installed, skipping"
+  else
+    echo "Installing $1..."
+    brew install "$@"
+  fi
+}
+
+# Helper function to install npm global package only if not already installed
+npm_install() {
+  local pkg="$1"
+  # Extract package name without @scope for checking
+  local check_name="${pkg##*/}"
+  if npm list -g "$pkg" &>/dev/null; then
+    echo "✓ $pkg already installed globally, skipping"
+  else
+    echo "Installing $pkg..."
+    npm install -g "$pkg"
+  fi
+}
+
 # Core CLI tools
-brew install coreutils
-brew install git
-brew install gh
-brew install curl
-brew install tree
-brew install htop
-brew install jq
-brew install wget
+brew_install coreutils
+brew_install git
+brew_install gh
+brew_install curl
+brew_install tree
+brew_install htop
+brew_install jq
+brew_install wget
 
 # Search & navigation
-brew install fzf
-brew install fd
-brew install ripgrep
-brew install zoxide
+brew_install fzf
+brew_install fd
+brew_install ripgrep
+brew_install zoxide
 
 # Better CLI alternatives
-brew install bat
-brew install eza
+brew_install bat
+brew_install eza
 
 # Shell & prompt
-brew install starship
+brew_install starship
 
 # Editors & TUI tools
-brew install neovim lua luarocks
-luarocks install --local luacheck
-brew install tmux
-brew install lazygit
-brew install lazydocker
+brew_install neovim
+brew_install lua
+brew_install luarocks
+
+# Install luacheck if not present
+if ! luarocks show luacheck &>/dev/null; then
+  echo "Installing luacheck..."
+  luarocks install --local luacheck
+else
+  echo "✓ luacheck already installed, skipping"
+fi
+
+brew_install tmux
+brew_install lazygit
+brew_install lazydocker
 
 # Dev utilities
-brew install gum
-brew install tree-sitter
-brew install ispell
-brew install libtool
+brew_install gum
+brew_install tree-sitter
+brew_install ispell
+brew_install libtool
 
 # Clojure
-brew install babashka
+brew_install babashka
 
 # JavaScript/TypeScript
-brew install node
-brew install typescript
-brew install typescript-language-server
-brew install prettier
-brew install tailwindcss
+brew_install node
+brew_install typescript
+brew_install typescript-language-server
+brew_install prettier
+brew_install tailwindcss
 
-# Note: vscode-langservers-extracted and tailwindcss-language-server
-# are typically installed via npm:
-npm install -g vscode-langservers-extracted
-npm install -g @tailwindcss/language-server
+# npm global packages
+npm_install vscode-langservers-extracted
+npm_install @tailwindcss/language-server
 
 # Nix tools
-brew install nixfmt
-brew install nil
+brew_install nixfmt
+brew_install nil
 
 # AI coding tools
-brew install claude-code || echo "claude-code not available via brew, install manually"
+if ! brew list claude-code &>/dev/null; then
+  brew install claude-code || echo "claude-code not available via brew, install manually"
+else
+  echo "✓ claude-code already installed, skipping"
+fi
 
 # Programming languages
-brew install go
-brew install python3
-brew install rustup-init
+brew_install go
+brew_install python3
+brew_install rustup-init
 
 # Set npm prefix and install node version manager
 npm config set prefix ~/.local/npm
-npm i -g n
-n lts
 
-# Install Deno and Bun
-curl -fsSL https://deno.land/install.sh | sh
-curl -fsSL https://bun.sh/install | bash
+npm_install n
+
+# Install LTS node if not already on LTS
+if command -v n &>/dev/null; then
+  current_node=$(node --version 2>/dev/null | sed 's/v//')
+  lts_node=$(n --lts 2>/dev/null)
+  if [[ "$current_node" == "$lts_node" ]]; then
+    echo "✓ Node LTS ($lts_node) already installed, skipping"
+  else
+    echo "Installing Node LTS..."
+    n lts
+  fi
+fi
+
+# Install Deno if not present
+if command -v deno &>/dev/null; then
+  echo "✓ Deno already installed, skipping"
+else
+  echo "Installing Deno..."
+  curl -fsSL https://deno.land/install.sh | sh
+fi
+
+# Install Bun if not present
+if command -v bun &>/dev/null; then
+  echo "✓ Bun already installed, skipping"
+else
+  echo "Installing Bun..."
+  curl -fsSL https://bun.sh/install | bash
+fi
 
 # Initialize Rust (skip if already installed)
-if ! command -v rustc &>/dev/null; then
+if command -v rustc &>/dev/null; then
+  echo "✓ Rust already installed, skipping"
+else
+  echo "Installing Rust..."
   rustup-init -y --no-modify-path
 fi

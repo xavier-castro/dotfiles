@@ -1,11 +1,31 @@
 #!/usr/bin/env bash
 
-# Install zsh (usually pre-installed on macOS, but ensure it's latest)
-brew install zsh
+# Install zsh if not present (usually pre-installed on macOS)
+if brew list zsh &>/dev/null; then
+  echo "✓ zsh already installed, skipping"
+else
+  echo "Installing zsh..."
+  brew install zsh
+fi
 
-# Update hash table and set as default shell
+# Update hash table
 hash -r
-sudo chsh -s $(which zsh)
 
-# Install Oh My Zsh (unattended to not drop into new shell)
-sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)" "" --unattended
+# Set as default shell only if not already set
+current_shell=$(dscl . -read /Users/"$USER" UserShell | awk '{print $2}')
+zsh_path=$(which zsh)
+
+if [[ "$current_shell" == "$zsh_path" ]]; then
+  echo "✓ zsh is already the default shell, skipping"
+else
+  echo "Setting zsh as default shell..."
+  sudo chsh -s "$zsh_path"
+fi
+
+# Install Oh My Zsh only if not already installed
+if [[ -d "$HOME/.oh-my-zsh" ]]; then
+  echo "✓ Oh My Zsh already installed, skipping"
+else
+  echo "Installing Oh My Zsh..."
+  sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)" "" --unattended
+fi
