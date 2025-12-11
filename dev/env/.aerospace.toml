@@ -1,3 +1,4 @@
+
 enable-normalization-flatten-containers = false
 enable-normalization-opposite-orientation-for-nested-containers = false
 
@@ -148,14 +149,14 @@ cmd-shift-up = 'move up'
 cmd-shift-right = 'move right'
 
 # Split windows
-cmd-h = 'split horizontal'
-cmd-v = 'split vertical'
+cmd-shift-h = 'split horizontal'
+cmd-shift-v = 'split vertical'
 
 # Toggle floating/tiling
-cmd-t = 'layout floating tiling'
+cmd-shift-t = 'layout floating tiling'
 
 # Fullscreen
-cmd-f = 'fullscreen'
+cmd-shift-f = 'fullscreen'
 
 [[on-window-detected]]
 if.app-id = 'com.apple.finder'
@@ -292,3 +293,5 @@ run = "layout floating"
 [[on-window-detected]]
 if.app-name-regex-substring = ".*"
 run = "layout floating"
+
+
