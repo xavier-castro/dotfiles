@@ -62,49 +62,11 @@ for s in $runs_dir; do
   fi
 done
 
-#remove_files() {
-#    pushd $1
-#    (
-#        configs=`find . -mindepth 1 -maxdepth 1 -type d`
-#        if [[ $dry_run == "1" ]]; then
-#            echo "[DRY_RUN]: removing: $configs"
-#        else
-#            echo "removing: $configs"
-#        fi
-#
-#        for c in $configs; do
-#            directory=${2%/}/${c}
-#            if [[ $dry_run == "1" ]]; then
-#                echo "[DRY_RUN]:    removing: $directory"
-#            else
-#                echo "    removing: $directory"
-#                rm -rf $directory
-#            fi
-#        done
-#
-#        if [[ $dry_run == "1" ]]; then
-#            echo "copying env: $2"
-#        else
-#            echo "copying env: $2"
-#            cp -r ./* $2
-#        fi
-#    )
-#    popd
-#}
+# Run dev-env to populate configuration
+log "running dev-env to populate configuration..."
 
-#run_env() {
-#    pushd $script_dir
-#    echo "removing ~config"
-#    remove_files env/.config $XDG_CONFIG_HOME
-#
-#    echo "removing ~local"
-#    remove_files env/.local $HOME/.local
-#
-#    echo "copying zsh"
-#    if [[ $dry_run == "0" ]]; then
-#        cp $script_dir/env/.zshrc ~/.zshrc
-#        cp $script_dir/env/.zsh_profile ~/.zsh_profile
-#    fi
-#
-#    popd
-#}
+if [[ $dry_run == "0" ]]; then
+  "$script_dir/dev-env"
+else
+  "$script_dir/dev-env" --dry
+fi
