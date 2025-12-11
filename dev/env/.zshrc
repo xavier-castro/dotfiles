@@ -25,7 +25,6 @@ alias tk="tmux kill-server"
 alias lg="lazygit"
 alias c="claude"
 alias g="git"
-alias emacs='emacs -nw'
 
 # Source profile
 source ~/.zsh_profile
