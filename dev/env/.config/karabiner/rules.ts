@@ -75,7 +75,7 @@ const rules: KarabinerRules[] = [
       g: app("Ghostty"),
       c: app("Cursor"),
       m: app("Morgen"),
-      b: app("Google Chrome")
+      b: app("Google Chrome"),
       // "i"Message
       i: app("Messages"),
       s: app("Spotify"),
