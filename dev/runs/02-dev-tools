@@ -2,25 +2,25 @@
 
 # Helper function to install brew package only if not already installed
 brew_install() {
-  if brew list "$1" &>/dev/null; then
-    echo "✓ $1 already installed, skipping"
-  else
-    echo "Installing $1..."
-    brew install "$@"
-  fi
+	if brew list "$1" &>/dev/null; then
+		echo "✓ $1 already installed, skipping"
+	else
+		echo "Installing $1..."
+		brew install "$@"
+	fi
 }
 
 # Helper function to install npm global package only if not already installed
 npm_install() {
-  local pkg="$1"
-  # Extract package name without @scope for checking
-  local check_name="${pkg##*/}"
-  if npm list -g "$pkg" &>/dev/null; then
-    echo "✓ $pkg already installed globally, skipping"
-  else
-    echo "Installing $pkg..."
-    npm install -g "$pkg"
-  fi
+	local pkg="$1"
+	# Extract package name without @scope for checking
+	local check_name="${pkg##*/}"
+	if npm list -g "$pkg" &>/dev/null; then
+		echo "✓ $pkg already installed globally, skipping"
+	else
+		echo "Installing $pkg..."
+		npm install -g "$pkg"
+	fi
 }
 
 # Core CLI tools
@@ -53,10 +53,10 @@ brew_install luarocks
 
 # Install luacheck if not present
 if ! luarocks show luacheck &>/dev/null; then
-  echo "Installing luacheck..."
-  luarocks install --local luacheck
+	echo "Installing luacheck..."
+	luarocks install --local luacheck
 else
-  echo "✓ luacheck already installed, skipping"
+	echo "✓ luacheck already installed, skipping"
 fi
 
 brew_install tmux
@@ -68,6 +68,7 @@ brew_install gum
 brew_install tree-sitter
 brew_install ispell
 brew_install libtool
+brew_install shfmt
 
 # Clojure
 brew_install babashka
@@ -89,9 +90,9 @@ brew_install nil
 
 # AI coding tools
 if ! brew list claude-code &>/dev/null; then
-  brew install claude-code || echo "claude-code not available via brew, install manually"
+	brew install claude-code || echo "claude-code not available via brew, install manually"
 else
-  echo "✓ claude-code already installed, skipping"
+	echo "✓ claude-code already installed, skipping"
 fi
 
 # Programming languages
@@ -106,36 +107,36 @@ npm_install n
 
 # Install LTS node if not already on LTS
 if command -v n &>/dev/null; then
-  current_node=$(node --version 2>/dev/null | sed 's/v//')
-  lts_node=$(n --lts 2>/dev/null)
-  if [[ "$current_node" == "$lts_node" ]]; then
-    echo "✓ Node LTS ($lts_node) already installed, skipping"
-  else
-    echo "Installing Node LTS..."
-    n lts
-  fi
+	current_node=$(node --version 2>/dev/null | sed 's/v//')
+	lts_node=$(n --lts 2>/dev/null)
+	if [[ "$current_node" == "$lts_node" ]]; then
+		echo "✓ Node LTS ($lts_node) already installed, skipping"
+	else
+		echo "Installing Node LTS..."
+		n lts
+	fi
 fi
 
 # Install Deno if not present
 if command -v deno &>/dev/null; then
-  echo "✓ Deno already installed, skipping"
+	echo "✓ Deno already installed, skipping"
 else
-  echo "Installing Deno..."
-  curl -fsSL https://deno.land/install.sh | sh
+	echo "Installing Deno..."
+	curl -fsSL https://deno.land/install.sh | sh
 fi
 
 # Install Bun if not present
 if command -v bun &>/dev/null; then
-  echo "✓ Bun already installed, skipping"
+	echo "✓ Bun already installed, skipping"
 else
-  echo "Installing Bun..."
-  curl -fsSL https://bun.sh/install | bash
+	echo "Installing Bun..."
+	curl -fsSL https://bun.sh/install | bash
 fi
 
 # Initialize Rust (skip if already installed)
 if command -v rustc &>/dev/null; then
-  echo "✓ Rust already installed, skipping"
+	echo "✓ Rust already installed, skipping"
 else
-  echo "Installing Rust..."
-  rustup-init -y --no-modify-path
+	echo "Installing Rust..."
+	rustup-init -y --no-modify-path
 fi

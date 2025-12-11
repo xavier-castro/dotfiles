@@ -1,4 +1,8 @@
 #!/usr/bin/env bash
 
+# Auto-detect dotfiles root from script location
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+DEV_ENV="$(dirname "$(dirname "$SCRIPT_DIR")")"
+
 # Copy config files to their destinations
 $DEV_ENV/dev/dev-env

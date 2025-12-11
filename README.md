@@ -1,5 +1,7 @@
 # README
 
+Run one shell command and have a development environment set up for Mac that has Karabiner hotkeys as well as Aerospace for workspace multi-management
+
 ## Run
 
 The run script:
@@ -11,11 +13,13 @@ The script also respects the --dry flag, passing it through to dev-env so you ca
 To use it:
 
 # Full run
+
 ./dev/run
 
 # Dry run to preview
+
 ./dev/run --dry
 
 # Run only scripts matching a pattern (e.g., just brew)
-./dev/run brew
 
+./dev/run brew

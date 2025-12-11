@@ -1,34 +1,64 @@
 #!/usr/bin/env bash
 
+# Helper to add tap only if not already tapped
+brew_tap() {
+	if brew tap | grep -q "^$1$"; then
+		echo "✓ $1 already tapped, skipping"
+	else
+		echo "Tapping $1..."
+		brew tap "$1"
+	fi
+}
+
+# Helper to install brew formula only if not already installed
+brew_install() {
+	if brew list "$1" &>/dev/null; then
+		echo "✓ $1 already installed, skipping"
+	else
+		echo "Installing $1..."
+		brew install "$@"
+	fi
+}
+
+# Helper to install cask only if not already installed
+cask_install() {
+	if brew list --cask "$1" &>/dev/null; then
+		echo "✓ $1 already installed, skipping"
+	else
+		echo "Installing $1..."
+		brew install --cask "$1"
+	fi
+}
+
 # Taps
-brew tap nikitabobko/tap
+brew_tap nikitabobko/tap
 
 # Brews
-brew install mise
+brew_install mise
 
 # Casks (alphabetical)
-brew install --cask 1password
-brew install --cask aerospace
-brew install --cask alt-tab
-brew install --cask anki
-brew install --cask claude
-brew install --cask cursor
-brew install --cask discord
-brew install --cask dropbox
-brew install --cask ghostty
-brew install --cask google-chrome
-brew install --cask hiddenbar
-brew install --cask jagex
-brew install --cask karabiner-elements
-brew install --cask logitech-g-hub
-brew install --cask morgen
-brew install --cask nvidia-geforce-now
-brew install --cask obsidian
-brew install --cask orbstack
-brew install --cask protonvpn
-brew install --cask raycast
-brew install --cask rectangle-pro
-brew install --cask screen-studio
-brew install --cask signal
-brew install --cask slack
-brew install --cask textsniper
+cask_install 1password
+cask_install aerospace
+cask_install alt-tab
+cask_install anki
+cask_install claude
+cask_install cursor
+cask_install discord
+cask_install dropbox
+cask_install ghostty
+cask_install google-chrome
+cask_install hiddenbar
+cask_install jagex
+cask_install karabiner-elements
+cask_install logitech-g-hub
+cask_install morgen
+cask_install nvidia-geforce-now
+cask_install obsidian
+cask_install orbstack
+cask_install protonvpn
+cask_install raycast
+cask_install rectangle-pro
+cask_install screen-studio
+cask_install signal
+cask_install slack
+cask_install textsniper

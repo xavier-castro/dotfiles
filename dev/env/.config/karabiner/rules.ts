@@ -1,148 +1,336 @@
-# set -ga terminal-overrides "xterm-ghostty"
-# set-option -g default-terminal "xterm-ghostty"
-# set -g default-terminal "xterm-256color"
-set -g default-terminal "tmux-256color"
-set-option -g set-clipboard on
-set -s escape-time 0
-set -gq allow-passthrough on
-set -g visual-activity off
+import fs from "fs";
+import { KarabinerRules } from "./types";
+import { createHyperSubLayers, app, open, window, shell } from "./utils";
 
-set-window-option -g mode-keys vi
-set-option -g history-limit 60096
-set -g mouse on
-bind -n WheelUpPane if-shell -F -t = "#{mouse_any_flag}" "send-keys -M" "if -Ft= '#{pane_in_mode}' 'send-keys -M' 'select-pane -t=; copy-mode -e; send-keys -M'"
-bind -n WheelDownPane select-pane -t= \; send-keys -M
+const rules: KarabinerRules[] = [
+  // Define the Hyper key itself
+  {
+    description: "Hyper Key (⌃⌥⇧⌘)",
+    manipulators: [
+      {
+        description: "Caps Lock -> Hyper Key",
+        from: {
+          key_code: "caps_lock",
+          modifiers: {
+            optional: ["any"],
+          },
+        },
+        to: [
+          {
+            set_variable: {
+              name: "hyper",
+              value: 1,
+            },
+          },
+        ],
+        to_after_key_up: [
+          {
+            set_variable: {
+              name: "hyper",
+              value: 0,
+            },
+          },
+        ],
+        to_if_alone: [
+          {
+            key_code: "escape",
+          },
+        ],
+        type: "basic",
+      },
+      //      {
+      //        type: "basic",
+      //        description: "Disable CMD + Tab to force Hyper Key usage",
+      //        from: {
+      //          key_code: "tab",
+      //          modifiers: {
+      //            mandatory: ["left_command"],
+      //          },
+      //        },
+      //        to: [
+      //          {
+      //            key_code: "tab",
+      //          },
+      //        ],
+      //      },
+    ],
+  },
+  ...createHyperSubLayers({
+    spacebar: open(
+      "raycast://extensions/stellate/mxstbr-commands/create-notion-todo"
+    ),
+    // b = "B"rowse
+    b: {
+      t: open("https://twitter.com"),
+      // Quarterly "P"lan
+      p: open("https://mxstbr.com/cal"),
+      y: open("https://news.ycombinator.com"),
+      f: open("https://facebook.com"),
+      r: open("https://reddit.com"),
+      h: open("https://hashnode.com/draft"),
+    },
+    // o = "Open" applications
+    o: {
+      1: app("1Password"),
+      g: app("Ghostty"),
+      c: app("Cursor"),
+      m: app("Morgen"),
+      f: app("Fantastical"),
+      // "i"Message
+      i: app("Messages"),
+      p: app("Music"),
+    },
 
-# allow the title bar to adapt to whatever host you connect to
-set -g set-titles on
-set -g set-titles-string "#T"
+    // TODO: This doesn't quite work yet.
+    // l = "Layouts" via Raycast's custom window management
+    // l: {
+    //   // Coding layout
+    //   c: shell`
+    //     open -a "Visual Studio Code.app"
+    //     sleep 0.2
+    //     open -g "raycast://customWindowManagementCommand?position=topLeft&relativeWidth=0.5"
 
-unbind C-b
-set-option -g prefix C-a
-bind-key C-a send-prefix
-set -g status-style 'bg=#333333 fg=#5eacd3'
+    //     open -a "Terminal.app"
+    //     sleep 0.2
+    //     open -g "raycast://customWindowManagementCommand?position=topRight&relativeWidth=0.5"
+    //   `,
+    // },
 
-set -g pane-active-border-style fg=black,bg=default
-set-option -g history-limit 64096
+    // w = "Window"
+    w: {
+      semicolon: {
+        description: "Window: Hide",
+        to: [
+          {
+            key_code: "h",
+            modifiers: ["right_command"],
+          },
+        ],
+      },
+      u: window("top-left-quarter"),
+      i: window("top-right-quarter"),
+      j: window("bottom-left-quarter"),
+      k: window("bottom-right-quarter"),
+      h: window("left-half"),
+      l: window("right-half"),
+      f: window("almost-maximize"),
+      c: window("center"),
+      r: window("reasonable-size"),
 
-bind r source-file ~/.config/tmux/tmux.conf
-set -g base-index 1
+      n: {
+        description: "Window: Next Window",
+        to: [
+          {
+            key_code: "grave_accent_and_tilde",
+            modifiers: ["right_command"],
+          },
+        ],
+      },
+      b: {
+        description: "Window: Back",
+        to: [
+          {
+            key_code: "open_bracket",
+            modifiers: ["right_command"],
+          },
+        ],
+      },
+      // Note: No literal connection. Both f and n are already taken.
+      m: {
+        description: "Window: Forward",
+        to: [
+          {
+            key_code: "close_bracket",
+            modifiers: ["right_command"],
+          },
+        ],
+      },
+    },
 
-bind -n M-L next-window
-bind -n M-H previous-window
-# bind M-A to open Session list
+    // s = "System"
+    s: {
+      u: {
+        to: [
+          {
+            key_code: "volume_increment",
+          },
+        ],
+      },
+      j: {
+        to: [
+          {
+            key_code: "volume_decrement",
+          },
+        ],
+      },
+      i: {
+        to: [
+          {
+            key_code: "display_brightness_increment",
+          },
+        ],
+      },
+      k: {
+        to: [
+          {
+            key_code: "display_brightness_decrement",
+          },
+        ],
+      },
+      l: {
+        to: [
+          {
+            key_code: "q",
+            modifiers: ["right_control", "right_command"],
+          },
+        ],
+      },
+      p: {
+        to: [
+          {
+            key_code: "play_or_pause",
+          },
+        ],
+      },
+      semicolon: {
+        to: [
+          {
+            key_code: "fastforward",
+          },
+        ],
+      },
+      e: open(
+        `raycast://extensions/thomas/elgato-key-light/toggle?launchType=background`
+      ),
+      // "D"o not disturb toggle
+      d: open(
+        `raycast://extensions/yakitrak/do-not-disturb/toggle?launchType=background`
+      ),
+      // "T"heme
+      t: open(`raycast://extensions/raycast/system/toggle-system-appearance`),
+      c: open("raycast://extensions/raycast/system/open-camera"),
+      // 'v'oice
+      v: {
+        to: [
+          {
+            key_code: "spacebar",
+            modifiers: ["left_option"],
+          },
+        ],
+      },
+    },
 
-# Re-number the windows as you open/close new windows
-set -g renumber-windows on
-set -g detach-on-destroy off
-set -g set-titles on
-set -g set-titles-string "#T"
+    // v = "moVe" which isn't "m" because we want it to be on the left hand
+    // so that hjkl work like they do in vim
+    v: {
+      h: {
+        to: [{ key_code: "left_arrow" }],
+      },
+      j: {
+        to: [{ key_code: "down_arrow" }],
+      },
+      k: {
+        to: [{ key_code: "up_arrow" }],
+      },
+      l: {
+        to: [{ key_code: "right_arrow" }],
+      },
+      // Magicmove via homerow.app
+      m: {
+        to: [{ key_code: "f", modifiers: ["right_control"] }],
+        // TODO: Trigger Vim Easymotion when VSCode is focused
+      },
+      // Scroll mode via homerow.app
+      s: {
+        to: [{ key_code: "j", modifiers: ["right_control"] }],
+      },
+      d: {
+        to: [{ key_code: "d", modifiers: ["right_shift", "right_command"] }],
+      },
+      u: {
+        to: [{ key_code: "page_down" }],
+      },
+      i: {
+        to: [{ key_code: "page_up" }],
+      },
+    },
 
-# osx clipboard
-set-option -g default-command "which reattach-to-user-namespace > /dev/null && reattach-to-user-namespace -l $SHELL || $SHELL"
+    // c = Musi*c* which isn't "m" because we want it to be on the left hand
+    c: {
+      p: {
+        to: [{ key_code: "play_or_pause" }],
+      },
+      n: {
+        to: [{ key_code: "fastforward" }],
+      },
+      b: {
+        to: [{ key_code: "rewind" }],
+      },
+    },
 
-# Undercurl
-set -as terminal-overrides ',*:Smulx=\E[4::%p1%dm'                                                        # undercurl support
-set -as terminal-overrides ',*:Setulc=\E[58::2::%p1%{65536}%/%d::%p1%{256}%/%{255}%&%d::%p1%{255}%&%d%;m' # underscore colours - needs tmux-3.0
+    // r = "Raycast"
+    r: {
+      c: open("raycast://extensions/thomas/color-picker/pick-color"),
+      n: open("raycast://script-commands/dismiss-notifications"),
+      l: open(
+        "raycast://extensions/stellate/mxstbr-commands/create-mxs-is-shortlink"
+      ),
+      e: open(
+        "raycast://extensions/raycast/emoji-symbols/search-emoji-symbols"
+      ),
+      p: open("raycast://extensions/raycast/raycast/confetti"),
+      a: open("raycast://extensions/raycast/raycast-ai/ai-chat"),
+      s: open("raycast://extensions/peduarte/silent-mention/index"),
+      h: open(
+        "raycast://extensions/raycast/clipboard-history/clipboard-history"
+      ),
+      1: open(
+        "raycast://extensions/VladCuciureanu/toothpick/connect-favorite-device-1"
+      ),
+      2: open(
+        "raycast://extensions/VladCuciureanu/toothpick/connect-favorite-device-2"
+      ),
+    },
+  }),
+  {
+    description: "Change Backspace to Spacebar when Minecraft is focused",
+    manipulators: [
+      {
+        description: "Map Caps Lock to Hyperkey",
+        type: "basic",
+        from: {
+          key_code: "caps_lock",
+        },
+        to: [
+          {
+            modifiers: {
+              mandatory: ["left_control", "left_option", "left_command"],
+            },
+            key_code: "fn",
+          },
+        ],
+      },
+    ],
+  },
+];
 
-set-window-option -g mode-keys vi
-bind -T copy-mode-vi v send-keys -X begin-selection
-bind -T copy-mode-vi y send-keys -X copy-pipe-and-cancel 'xclip -in -selection clipboard'
-
-# Smart pane switching with awareness of Vim splits (vim-tmux-navigator)
-vim_pattern='(\\S+/)?g?\\.?(view|l?n?vim?x?|fzf)(diff)?(-wrapped)?'
-is_vim="ps -o state= -o comm= -t '#{pane_tty}' \
- | grep -iqE '^\[^TXZ \]+ +${vim_pattern}$'"
-
-bind-key -n 'C-h' if-shell "$is_vim" 'send-keys C-h' 'select-pane -L'
-bind-key -n 'C-j' if-shell "$is_vim" 'send-keys C-j' 'select-pane -D'
-bind-key -n 'C-k' if-shell "$is_vim" 'send-keys C-k' 'select-pane -U'
-bind-key -n 'C-l' if-shell "$is_vim" 'send-keys C-l' 'select-pane -R'
-
-# Handle previous pane navigation for different tmux versions
-tmux_version='$(tmux -V | sed -En "s/^tmux ([0-9]+(.[0-9]+)?).*/\1/p")'
-if-shell -b '[ "$(echo "$tmux_version < 3.0" | bc)" = 1 ]' \
-  "bind-key -n 'C-\\' if-shell \"$is_vim\" 'send-keys C-\\' 'select-pane -l'"
-if-shell -b '[ "$(echo "$tmux_version >= 3.0" | bc)" = 1 ]' \
-  "bind-key -n 'C-\\' if-shell \"$is_vim\" 'send-keys C-\\\\' 'select-pane -l'"
-
-# Copy mode bindings for seamless navigation
-bind-key -T copy-mode-vi 'C-h' select-pane -L
-bind-key -T copy-mode-vi 'C-j' select-pane -D
-bind-key -T copy-mode-vi 'C-k' select-pane -U
-bind-key -T copy-mode-vi 'C-l' select-pane -R
-bind-key -T copy-mode-vi 'C-\' select-pane -l
-
-# Fallback vim-like pane switching (with prefix)
-bind -r ^ last-window
-bind -r k select-pane -U
-bind -r j select-pane -D
-bind -r h select-pane -L
-bind -r l select-pane -R
-
-unbind C-h
-unbind C-j
-unbind C-k
-unbind C-l
-
-bind C-h select-pane -L
-bind C-j select-pane -D
-bind C-k select-pane -U
-bind C-l select-pane -R
-
-# Moving window
-bind -r D neww -c "#{pane_current_path}" "[[ -e TODO.md ]] && nvim TODO.md || nvim ~/.dotfiles/personal/todo.md"
-# Display lazygit
-bind -r g display-popup -d '#{pane_current_path}' -w95% -h95% -E lazygit
-
-# Pane resizing bindings (for quick adjustments without prefix)
-bind -n M-H resize-pane -L 5
-bind -n M-J resize-pane -D 5
-bind -n M-K resize-pane -U 5
-bind -n M-L resize-pane -R 5
-
-# More granular resize with prefix
-bind -r H resize-pane -L 10
-bind -r J resize-pane -D 10
-bind -r K resize-pane -U 10
-bind -r L resize-pane -R 10
-
-# Quick resize presets
-bind -r = select-layout even-horizontal
-bind -r | select-layout even-vertical
-bind -r o rotate-window
-
-# AI
-bind-key C-c new-window -n "claude" "claude --dangerously-skip-permissions"
-bind-key C-g new-window -n "gemini" "gemini"
-bind-key C-o new-window -n "opencode" "opencode"
-
-bind-key -n "C-t" run-shell "sesh connect \"$(
-  sesh list --icons | fzf-tmux -p 80%,70% \
-    --no-sort --ansi --border-label ' sesh ' --prompt '⚡  ' \
-    --header '  ^a all ^t tmux ^g configs ^x zoxide ^d tmux kill ^f find' \
-    --bind 'tab:down,btab:up' \
-    --bind 'ctrl-a:change-prompt(⚡  )+reload(sesh list --icons)' \
-    --bind 'ctrl-t:change-prompt(🪟  )+reload(sesh list -t --icons)' \
-    --bind 'ctrl-g:change-prompt(⚙️  )+reload(sesh list -c --icons)' \
-    --bind 'ctrl-x:change-prompt(📁  )+reload(sesh list -z --icons)' \
-    --bind 'ctrl-f:change-prompt(🔎  )+reload(fd -H -d 2 -t d -E .Trash . ~)' \
-    --bind 'ctrl-d:execute(tmux kill-session -t {2..})+change-prompt(⚡  )+reload(sesh list --icons)' \
-    --preview-window 'right:55%' \
-    --preview 'sesh preview {}'
-)\""
-
-bind-key "a" display-popup -E -w 40% "sesh connect \"$(
-  sesh list -i | gum filter --limit 1 --no-sort --fuzzy --placeholder 'Pick a sesh' --height 50 --prompt='⚡'
-)\""
-
-# tmux-sessionizer
-# https://github.com/ThePrimeagen/tmux-sessionizer
-bind-key -r f run-shell "tmux neww ~/.local/scripts/tmux-sessionizer"
-bind-key -r M-h run-shell "tmux neww tmux-sessionizer -s 0"
-bind-key -r M-t run-shell "tmux neww tmux-sessionizer -s 1"
-bind-key -r M-n run-shell "tmux neww tmux-sessionizer -s 2"
-bind-key -r M-s run-shell "tmux neww tmux-sessionizer -s 3"
-bind-key x kill-pane
-
-run-shell ~/.tmux-floating-terminal/floating_plugin.tmux
+fs.writeFileSync(
+  "karabiner.json",
+  JSON.stringify(
+    {
+      global: {
+        show_in_menu_bar: false,
+      },
+      profiles: [
+        {
+          name: "Default",
+          complex_modifications: {
+            rules,
+          },
+        },
+      ],
+    },
+    null,
+    2
+  )
+);
