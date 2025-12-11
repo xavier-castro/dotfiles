@@ -1,9 +1,16 @@
 #!/usr/bin/env bash
-script_dir="$( cd "$( dirname "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )"
+script_dir="$(cd "$(dirname "${BASH_SOURCE[0]}")" &>/dev/null && pwd)"
+
+# Auto-detect dotfiles root from script location if DEV_ENV not set
+if [ -z "$DEV_ENV" ]; then
+  SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+  DEV_ENV="$(dirname "$SCRIPT_DIR")"
+  echo "Auto-detected DEV_ENV: $DEV_ENV"
+fi
 
 if [ -z "$DEV_ENV" ]; then
-    echo "env var DEV_ENV needs to be present"
-    exit 1
+  echo "env var DEV_ENV needs to be present"
+  exit 1
 fi
 
 # if i just did DEV_ENV=$(pwd) ./run then this is needed for the rest of the
@@ -14,45 +21,45 @@ grep=""
 dry_run="0"
 
 while [[ $# -gt 0 ]]; do
-    echo "ARG: \"$1\""
-    if [[ "$1" == "--dry" ]]; then
-        dry_run="1"
-    else
-        grep="$1"
-    fi
-    shift
+  echo "ARG: \"$1\""
+  if [[ "$1" == "--dry" ]]; then
+    dry_run="1"
+  else
+    grep="$1"
+  fi
+  shift
 done
 
 log() {
-    if [[ $dry_run == "1" ]]; then
-        echo "[DRY_RUN]: $1"
-    else
-        echo "$1"
-    fi
+  if [[ $dry_run == "1" ]]; then
+    echo "[DRY_RUN]: $1"
+  else
+    echo "$1"
+  fi
 }
 
 log "RUN: env: $env -- grep: $grep"
 
 # Use different find syntax based on OS
 if [[ "$OSTYPE" == "darwin"* ]]; then
-    # macOS (BSD find)
-    runs_dir=`find $script_dir/runs -mindepth 1 -maxdepth 1 -type f -perm +111`
+  # macOS (BSD find)
+  runs_dir=$(find $script_dir/runs -mindepth 1 -maxdepth 1 -type f -perm +111)
 else
-    # Linux (GNU find)
-    runs_dir=`find $script_dir/runs -mindepth 1 -maxdepth 1 -executable`
+  # Linux (GNU find)
+  runs_dir=$(find $script_dir/runs -mindepth 1 -maxdepth 1 -executable)
 fi
 
 for s in $runs_dir; do
-    if basename $s | grep -vq "$grep"; then
-        log "grep \"$grep\" filtered out $s"
-        continue
-    fi
+  if basename $s | grep -vq "$grep"; then
+    log "grep \"$grep\" filtered out $s"
+    continue
+  fi
 
-    log "running script: $s"
+  log "running script: $s"
 
-    if [[ $dry_run == "0" ]]; then
-        $s
-    fi
+  if [[ $dry_run == "0" ]]; then
+    $s
+  fi
 done
 
 #remove_files() {

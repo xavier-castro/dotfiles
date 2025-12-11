@@ -1,0 +1,18 @@
+font-family = CaskaydiaCove Nerd Font
+font-size = 16
+adjust-cell-height = -3%
+
+selection-foreground = #ffffff
+selection-background = #264F78
+cursor-color = #ffdb29
+background-opacity=0.95
+background-blur = 25
+macos-titlebar-style = transparent
+keybind = cmd+opt+left=unbind
+keybind = cmd+opt+right=unbind
+keybind = shift+enter=text:\n
+macos-option-as-alt = left
+keybind = alt+left=unbind
+keybind = alt+right=unbind
+window-padding-x = 8
+window-padding-y = 8

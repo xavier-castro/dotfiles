@@ -46,6 +46,7 @@ addToPathFront() {
     fi
 }
 
+addToPathFront /usr/local/bin
 addToPathFront $HOME/.zig
 addToPathFront $HOME/.local/.npm-global/bin
 addToPathFront $HOME/.local/odin
@@ -67,7 +68,7 @@ addToPath $HOME/.npm-global/bin
 addToPathFront $HOME/.local/zig true
 
 # Homebrew (macOS)
-eval "$(/opt/homebrew/bin/brew shellenv)"
+eval "$(/usr/local/bin/brew shellenv)"
 
 # thanks gt
 alias gt='NODE_OPTIONS="--no-deprecation" gt'

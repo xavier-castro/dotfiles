@@ -16,6 +16,17 @@ plugins=(git)
 
 source $ZSH/oh-my-zsh.sh
 
+alias ls="ls -p -G"
+alias la="ls -A"
+alias ll="eza -l -g --icons"
+alias lla="ll -a"
+alias tt="tmux new-session -A -s 'MAIN'"
+alias tk="tmux kill-server"
+alias lg="lazygit"
+alias c="claude"
+alias g="git"
+alias emacs='emacs -nw'
+
 # Source profile
 source ~/.zsh_profile
 
