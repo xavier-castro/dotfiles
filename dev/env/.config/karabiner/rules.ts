@@ -75,10 +75,10 @@ const rules: KarabinerRules[] = [
       g: app("Ghostty"),
       c: app("Cursor"),
       m: app("Morgen"),
-      f: app("Fantastical"),
+      b: app("Google Chrome")
       // "i"Message
       i: app("Messages"),
-      p: app("Music"),
+      s: app("Spotify"),
     },
 
     // TODO: This doesn't quite work yet.
