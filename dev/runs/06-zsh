@@ -1,0 +1,11 @@
+#!/usr/bin/env bash
+
+# Install zsh (usually pre-installed on macOS, but ensure it's latest)
+brew install zsh
+
+# Update hash table and set as default shell
+hash -r
+sudo chsh -s $(which zsh)
+
+# Install Oh My Zsh (unattended to not drop into new shell)
+sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)" "" --unattended

@@ -24,6 +24,7 @@ brew install --cask logitech-g-hub
 brew install --cask morgen
 brew install --cask nvidia-geforce-now
 brew install --cask obsidian
+brew install --cask orbstack
 brew install --cask protonvpn
 brew install --cask raycast
 brew install --cask rectangle-pro

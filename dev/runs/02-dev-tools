@@ -24,7 +24,8 @@ brew install eza
 brew install starship
 
 # Editors & TUI tools
-brew install neovim
+brew install neovim lua luarocks
+luarocks install --local luacheck
 brew install tmux
 brew install lazygit
 brew install lazydocker
@@ -62,7 +63,16 @@ brew install go
 brew install python3
 brew install rustup-init
 
+# Set npm prefix and install node version manager
+npm config set prefix ~/.local/npm
+npm i -g n
+n lts
+
+# Install Deno and Bun
+curl -fsSL https://deno.land/install.sh | sh
+curl -fsSL https://bun.sh/install | bash
+
 # Initialize Rust (skip if already installed)
-if ! command -v rustc &> /dev/null; then
-    rustup-init -y --no-modify-path
+if ! command -v rustc &>/dev/null; then
+  rustup-init -y --no-modify-path
 fi

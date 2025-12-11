@@ -1,0 +1,294 @@
+enable-normalization-flatten-containers = false
+enable-normalization-opposite-orientation-for-nested-containers = false
+
+#after-startup-command = [
+#    # JankyBorders has a built-in detection of already running process,
+#    # so it won't be run twice on AeroSpace restart
+#    'exec-and-forget borders active_color=0xffe1e3e4 inactive_color=0xff494d64 width=5.0'
+#]
+
+start-at-login = true
+
+# Mouse follows focus when focused monitor changes
+on-focused-monitor-changed = ['move-mouse monitor-lazy-center']
+
+# You can effectively turn off macOS "Hide application" (cmd-h) feature by toggling this flag
+# Useful if you don't use this macOS feature, but accidentally hit cmd-h or cmd-alt-h key
+# Also see: https://nikitabobko.github.io/AeroSpace/goodies#disable-hide-app
+automatically-unhide-macos-hidden-apps = false
+
+# Gap settings - similar to typical Hyprland setup
+[gaps]
+inner.horizontal = 8
+inner.vertical = 8
+outer.left = 8
+outer.bottom = 8
+outer.top = 8
+outer.right = 8
+
+[workspace-to-monitor-force-assignment]
+1 = 'main'       # Monitor sequence number from left to right. 1-based indexing
+2 = 'main'       # Main monitor
+3 = 'main'       # Non-main monitor in case when there are only two monitors
+4 = 'main'       # Case insensitive regex substring
+5 = 'main'       # Case insensitive regex match
+6 = 'main'       # You can specify multiple patterns.
+7 = 'secondary'
+8 = 'secondary'
+9 = 'secondary'
+10 = 'secondary'
+#   The first matching pattern will be used
+
+[mode.main.binding]
+# See: https://nikitabobko.github.io/AeroSpace/goodies#open-a-new-window-with-applescript
+alt-enter = '''exec-and-forget osascript -e '
+    tell application "Ghostty"
+        do script
+        activate
+    end tell'
+    '''
+
+# cmd-h = []     # Disabled to use Omarchy-style keybind (cmd-h for split horizontal)
+cmd-alt-h = [] # Disable "hide others"
+
+# See: https://nikitabobko.github.io/AeroSpace/commands#move-workspace-to-monitor
+alt-shift-tab = 'move-workspace-to-monitor --wrap-around next'
+
+# Changed directional keys to avoid conflict with tmux
+alt-a = 'focus --boundaries-action wrap-around-the-workspace left'
+alt-s = 'focus --boundaries-action wrap-around-the-workspace down'
+alt-w = 'focus --boundaries-action wrap-around-the-workspace up'
+alt-d = 'focus --boundaries-action wrap-around-the-workspace right'
+
+alt-ctrl-a = 'move left'
+alt-ctrl-s = 'move down'
+alt-ctrl-w = 'move up'
+alt-ctrl-d = 'move right'
+
+# Consider using 'join-with' command as a 'split' replacement if you want to enable
+# normalizations
+alt-h = 'split horizontal'
+alt-v = 'split vertical'
+
+# alt-f = 'fullscreen'
+
+alt-q = 'layout v_accordion'               # 'layout stacking' in i3 (changed from alt-s)
+alt-e = 'layout h_accordion'               # 'layout tabbed' in i3 (changed from alt-w)
+alt-z = 'layout tiles horizontal vertical' # 'layout toggle split' in i3 (changed from alt-e)
+
+alt-shift-space = 'layout floating tiling' # 'floating toggle' in i3
+
+# Not supported, because this command is redundant in AeroSpace mental model.
+# See: https://nikitabobko.github.io/AeroSpace/guide#floating-windows
+#alt-space = 'focus toggle_tiling_floating'
+
+# `focus parent`/`focus child` are not yet supported, and it's not clear whether they
+# should be supported at all https://github.com/nikitabobko/AeroSpace/issues/5
+# alt-a = 'focus parent'
+
+alt-1 = 'workspace 1'
+alt-2 = 'workspace 2'
+alt-3 = 'workspace 3'
+alt-4 = 'workspace 4'
+alt-5 = 'workspace 5'
+alt-6 = 'workspace 6'
+alt-7 = 'workspace 7'
+alt-8 = 'workspace 8'
+alt-9 = 'workspace 9'
+alt-0 = 'workspace 10'
+
+alt-shift-1 = 'move-node-to-workspace 1'
+alt-shift-2 = 'move-node-to-workspace 2'
+alt-shift-3 = 'move-node-to-workspace 3'
+alt-shift-4 = 'move-node-to-workspace 4'
+alt-shift-5 = 'move-node-to-workspace 5'
+alt-shift-6 = 'move-node-to-workspace 6'
+alt-shift-7 = 'move-node-to-workspace 7'
+alt-shift-8 = 'move-node-to-workspace 8'
+alt-shift-9 = 'move-node-to-workspace 9'
+alt-shift-0 = 'move-node-to-workspace 10'
+alt-shift-c = 'reload-config'
+alt-r = 'mode resize'
+
+# Omarchy Linux style keybinds (using cmd/Super key)
+# Workspace navigation
+cmd-1 = 'workspace 1'
+cmd-2 = 'workspace 2'
+cmd-3 = 'workspace 3'
+cmd-4 = 'workspace 4'
+cmd-5 = 'workspace 5'
+cmd-6 = 'workspace 6'
+cmd-7 = 'workspace 7'
+cmd-8 = 'workspace 8'
+cmd-9 = 'workspace 9'
+cmd-0 = 'workspace 10'
+
+# Move window to workspace
+cmd-shift-1 = 'move-node-to-workspace 1'
+cmd-shift-2 = 'move-node-to-workspace 2'
+cmd-shift-3 = 'move-node-to-workspace 3'
+cmd-shift-4 = 'move-node-to-workspace 4'
+cmd-shift-5 = 'move-node-to-workspace 5'
+cmd-shift-6 = 'move-node-to-workspace 6'
+cmd-shift-7 = 'move-node-to-workspace 7'
+cmd-shift-8 = 'move-node-to-workspace 8'
+cmd-shift-9 = 'move-node-to-workspace 9'
+cmd-shift-0 = 'move-node-to-workspace 10'
+
+# Focus window in direction (arrow keys)
+cmd-left = 'focus --boundaries-action wrap-around-the-workspace left'
+cmd-down = 'focus --boundaries-action wrap-around-the-workspace down'
+cmd-up = 'focus --boundaries-action wrap-around-the-workspace up'
+cmd-right = 'focus --boundaries-action wrap-around-the-workspace right'
+
+# Swap/move window in direction
+cmd-shift-left = 'move left'
+cmd-shift-down = 'move down'
+cmd-shift-up = 'move up'
+cmd-shift-right = 'move right'
+
+# Split windows
+cmd-h = 'split horizontal'
+cmd-v = 'split vertical'
+
+# Toggle floating/tiling
+cmd-t = 'layout floating tiling'
+
+# Fullscreen
+cmd-f = 'fullscreen'
+
+[[on-window-detected]]
+if.app-id = 'com.apple.finder'
+run = 'layout floating'
+
+[[on-window-detected]]
+if.app-id = 'com.todoist.mac.Todoist'
+run = 'layout floating'
+
+[[on-window-detected]]
+if.app-id = 'com.flexibits.fantastical2.mac'
+run = 'layout floating'
+
+[[on-window-detected]]
+if.app-id = 'com.apple.MobileSMS'
+run = 'layout floating'
+
+[[on-window-detected]]
+if.app-id = 'com.raycast.macos'
+run = 'layout floating'
+
+[[on-window-detected]]
+if.app-id = 'com.jagex.launcher'
+run = 'layout floating'
+
+[[on-window-detected]]
+if.app-id = 'net.runelite.launcher'
+run = 'layout floating'
+
+[[on-window-detected]]
+if.app-id = 'com.apple.mail'
+run = 'layout floating'
+
+[[on-window-detected]]
+if.app-id = 'org.qbittorrent.qBittorrent'
+run = 'layout floating'
+
+[[on-window-detected]]
+if.app-id = 'com.apple.findmy'
+run = 'layout floating'
+
+[[on-window-detected]]
+if.app-id = 'com.wizards.mtga'
+run = 'layout floating'
+
+[[on-window-detected]]
+if.app-id = 'com.apple.news'
+run = 'layout floating'
+
+[[on-window-detected]]
+if.app-id = 'md.obsidian'
+run = 'layout floating'
+
+[[on-window-detected]]
+if.app-id = 'info.pkpk.inkdrop'
+run = 'layout floating'
+
+[[on-window-detected]]
+if.app-id = 'com.anthropic.claudefordesktop'
+run = 'layout floating'
+
+[[on-window-detected]]
+if.app-id = 'com.apple.iphonesimulator'
+run = 'layout floating'
+
+[[on-window-detected]]
+if.app-id = 'com.mitchellh.ghostty'
+run = 'layout floating'
+
+[[on-window-detected]]
+if.app-id = 'com.todesktop.230313mzl4w4u92'
+run = 'layout floating'
+
+[[on-window-detected]]
+if.app-id = 'com.colliderli.iina'
+run = 'layout floating'
+
+[[on-window-detected]]
+if.app-id = 'dev.zed.Zed'
+run = 'layout floating'
+
+[[on-window-detected]]
+if.app-id = 'dev.zed.Zed-Preview'
+run = 'layout floating'
+
+[[on-window-detected]]
+if.app-id = 'com.vivaldi.Vivaldi'
+run = 'layout floating'
+
+[[on-window-detected]]
+if.app-id = 'com.microsoft.VSCode'
+run = 'layout floating'
+
+[[on-window-detected]]
+if.app-id = 'com.microsoft.VSCodeInsiders'
+run = 'layout floating'
+
+[[on-window-detected]]
+if.app-id = "com.brave.Browser"
+run = "layout floating"
+
+[[on-window-detected]]
+if.app-id = "com.1password.1password"
+run = "layout floating"
+
+[[on-window-detected]]
+if.app-id = "notion.id"
+run = "layout floating"
+
+[[on-window-detected]]
+if.app-id = "com.toggl.daneel"
+run = "layout floating"
+
+[[on-window-detected]]
+if.app-id = "com.apple.systempreferences"
+run = "layout floating"
+
+[[on-window-detected]]
+if.app-id = "app.zen-browser.zen"
+run = "layout floating"
+
+[[on-window-detected]]
+if.app-id = "dev.kdrag0n.MacVirt"
+run = "layout floating"
+
+[[on-window-detected]]
+if.app-id = "app.legcord.Legcord"
+run = "layout floating"
+
+[[on-window-detected]]
+if.app-id = "com.google.Chrome"
+run = "layout floating"
+
+[[on-window-detected]]
+if.app-name-regex-substring = ".*"
+run = "layout floating"

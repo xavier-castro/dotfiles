@@ -1,0 +1,11 @@
+#!/usr/bin/env bash
+
+# Install programming fonts
+brew tap homebrew/cask-fonts
+
+# Popular programming fonts (choose your preference)
+brew install --cask font-fira-code
+brew install --cask font-jetbrains-mono
+brew install --cask font-hack
+brew install --cask font-source-code-pro
+brew install --cask font-cascadia-code

@@ -3,9 +3,11 @@ VIM="nvim"
 
 PERSONAL=$XDG_CONFIG_HOME/personal
 DEV_ENV=$HOME/dev
-for i in `find -L $PERSONAL`; do
-    source $i
-done
+if [ -d "$PERSONAL" ]; then
+    for i in `find -L $PERSONAL -type f 2>/dev/null`; do
+        source $i
+    done
+fi
 
 ## All that sweet sweet fzf
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
