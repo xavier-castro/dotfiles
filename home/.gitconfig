@@ -9,3 +9,9 @@
 [user]
     name = Xavier
     email = xavier_castro@icloud.com
+[credential "https://github.com"]
+	helper = 
+	helper = !/usr/bin/gh auth git-credential
+[credential "https://gist.github.com"]
+	helper = 
+	helper = !/usr/bin/gh auth git-credential
