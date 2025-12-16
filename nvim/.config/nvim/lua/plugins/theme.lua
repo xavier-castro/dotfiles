@@ -1,1 +1,0 @@
-/home/xavier/.config/omarchy/current/theme/neovim.lua
