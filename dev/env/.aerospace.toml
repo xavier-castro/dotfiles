@@ -41,52 +41,33 @@ outer.right = 8
 #   The first matching pattern will be used
 
 [mode.main.binding]
-# See: https://nikitabobko.github.io/AeroSpace/goodies#open-a-new-window-with-applescript
-alt-enter = '''exec-and-forget osascript -e '
-    tell application "Ghostty"
-        do script
-        activate
-    end tell'
-    '''
-
-# cmd-h = []     # Disabled to use Omarchy-style keybind (cmd-h for split horizontal)
-cmd-alt-h = [] # Disable "hide others"
-
-# See: https://nikitabobko.github.io/AeroSpace/commands#move-workspace-to-monitor
-alt-shift-tab = 'move-workspace-to-monitor --wrap-around next'
-
-# Changed directional keys to avoid conflict with tmux
-alt-a = 'focus --boundaries-action wrap-around-the-workspace left'
-alt-s = 'focus --boundaries-action wrap-around-the-workspace down'
-alt-w = 'focus --boundaries-action wrap-around-the-workspace up'
-alt-d = 'focus --boundaries-action wrap-around-the-workspace right'
-
-alt-ctrl-a = 'move left'
-alt-ctrl-s = 'move down'
-alt-ctrl-w = 'move up'
-alt-ctrl-d = 'move right'
-
-# Consider using 'join-with' command as a 'split' replacement if you want to enable
-# normalizations
-alt-h = 'split horizontal'
-alt-v = 'split vertical'
-
-# alt-f = 'fullscreen'
-
-alt-q = 'layout v_accordion'               # 'layout stacking' in i3 (changed from alt-s)
-alt-e = 'layout h_accordion'               # 'layout tabbed' in i3 (changed from alt-w)
-alt-z = 'layout tiles horizontal vertical' # 'layout toggle split' in i3 (changed from alt-e)
-
 alt-shift-space = 'layout floating tiling' # 'floating toggle' in i3
 
-# Not supported, because this command is redundant in AeroSpace mental model.
-# See: https://nikitabobko.github.io/AeroSpace/guide#floating-windows
-#alt-space = 'focus toggle_tiling_floating'
+# See: https://nikitabobko.github.ioeAeroSpace/commands#layout
+alt-e = 'layout tiles horizontal vertical'
+alt-comma = 'layout accordion horizontal vertical'
+alt-f = 'fullscreen'
+alt-y = ['focus right', 'join-with down', 'layout tiles horizontal']
 
-# `focus parent`/`focus child` are not yet supported, and it's not clear whether they
-# should be supported at all https://github.com/nikitabobko/AeroSpace/issues/5
-# alt-a = 'focus parent'
+# See: https://nikitabobko.github.io/AeroSpace/commands#focus
+alt-h = 'focus left'
+alt-j = 'focus down'
+alt-k = 'focus up'
+alt-l = 'focus right'
 
+# app shortcut
+
+# See: https://nikitabobko.github.io/AeroSpace/commands#move
+alt-shift-h = 'move left'
+alt-shift-j = 'move down'
+alt-shift-k = 'move up'
+alt-shift-l = 'move right'
+
+# See: https://nikitabobko.github.io/AeroSpace/commands#resize
+alt-shift-minus = 'resize smart -50'
+alt-shift-equal = 'resize smart +50'
+
+# See: https://nikitabobko.github.io/AeroSpace/commands#workspace
 alt-1 = 'workspace 1'
 alt-2 = 'workspace 2'
 alt-3 = 'workspace 3'
@@ -94,10 +75,8 @@ alt-4 = 'workspace 4'
 alt-5 = 'workspace 5'
 alt-6 = 'workspace 6'
 alt-7 = 'workspace 7'
-alt-8 = 'workspace 8'
-alt-9 = 'workspace 9'
-alt-0 = 'workspace 10'
 
+# See: https://nikitabobko.github.io/AeroSpace/commands#move-node-to-workspace
 alt-shift-1 = 'move-node-to-workspace 1'
 alt-shift-2 = 'move-node-to-workspace 2'
 alt-shift-3 = 'move-node-to-workspace 3'
@@ -105,58 +84,35 @@ alt-shift-4 = 'move-node-to-workspace 4'
 alt-shift-5 = 'move-node-to-workspace 5'
 alt-shift-6 = 'move-node-to-workspace 6'
 alt-shift-7 = 'move-node-to-workspace 7'
-alt-shift-8 = 'move-node-to-workspace 8'
-alt-shift-9 = 'move-node-to-workspace 9'
-alt-shift-0 = 'move-node-to-workspace 10'
-alt-shift-c = 'reload-config'
-alt-r = 'mode resize'
 
-# Omarchy Linux style keybinds (using cmd/Super key)
-# Workspace navigation
-cmd-1 = 'workspace 1'
-cmd-2 = 'workspace 2'
-cmd-3 = 'workspace 3'
-cmd-4 = 'workspace 4'
-cmd-5 = 'workspace 5'
-cmd-6 = 'workspace 6'
-cmd-7 = 'workspace 7'
-cmd-8 = 'workspace 8'
-cmd-9 = 'workspace 9'
-cmd-0 = 'workspace 10'
+# See: https://nikitabobko.github.io/AeroSpace/commands#workspace-back-and-forth
+alt-tab = 'workspace-back-and-forth'
 
-# Move window to workspace
-cmd-shift-1 = 'move-node-to-workspace 1'
-cmd-shift-2 = 'move-node-to-workspace 2'
-cmd-shift-3 = 'move-node-to-workspace 3'
-cmd-shift-4 = 'move-node-to-workspace 4'
-cmd-shift-5 = 'move-node-to-workspace 5'
-cmd-shift-6 = 'move-node-to-workspace 6'
-cmd-shift-7 = 'move-node-to-workspace 7'
-cmd-shift-8 = 'move-node-to-workspace 8'
-cmd-shift-9 = 'move-node-to-workspace 9'
-cmd-shift-0 = 'move-node-to-workspace 10'
+# See: https://nikitabobko.github.io/AeroSpace/commands#move-workspace-to-monitor
+alt-shift-tab = 'move-workspace-to-monitor --wrap-around next'
 
-# Focus window in direction (arrow keys)
-cmd-left = 'focus --boundaries-action wrap-around-the-workspace left'
-cmd-down = 'focus --boundaries-action wrap-around-the-workspace down'
-cmd-up = 'focus --boundaries-action wrap-around-the-workspace up'
-cmd-right = 'focus --boundaries-action wrap-around-the-workspace right'
+# See: https://nikitabobko.github.io/AeroSpace/commands#mode
+alt-shift-semicolon = 'mode service'
 
-# Swap/move window in direction
-cmd-shift-left = 'move left'
-cmd-shift-down = 'move down'
-cmd-shift-up = 'move up'
-cmd-shift-right = 'move right'
+# 'service' binding mode declaration.
+# See: https://nikitabobko.github.io/AeroSpace/guide#binding-modes
+[mode.service.binding]
+esc = ['reload-config', 'mode main']
+r = ['flatten-workspace-tree', 'mode main'] # reset layout
+f = [
+    'layout floating tiling',
+    'mode main',
+] # Toggle between floating and tiling layout
+backspace = ['close-all-windows-but-current', 'mode main']
 
-# Split windows
-cmd-shift-h = 'split horizontal'
-cmd-shift-v = 'split vertical'
+# sticky is not yet supported https://github.com/nikitabobko/AeroSpace/issues/2
+#s = ['layout sticky tiling', 'mode main']
 
-# Toggle floating/tiling
-cmd-shift-t = 'layout floating tiling'
+alt-shift-h = ['join-with left', 'mode main']
+alt-shift-j = ['join-with down', 'mode main']
+alt-shift-k = ['join-with up', 'mode main']
+alt-shift-l = ['join-with right', 'mode main']
 
-# Fullscreen
-cmd-shift-f = 'fullscreen'
 
 [[on-window-detected]]
 if.app-id = 'com.apple.finder'
@@ -293,5 +249,3 @@ run = "layout floating"
 [[on-window-detected]]
 if.app-name-regex-substring = ".*"
 run = "layout floating"
-
-
