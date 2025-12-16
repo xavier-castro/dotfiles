@@ -1,0 +1,7 @@
+[tools]
+bun = "latest"
+dotnet = "latest"
+go = "latest"
+java = "latest"
+node = "25.2.1"
+python = "latest"
