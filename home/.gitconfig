@@ -1,0 +1,11 @@
+[credential "https://github.com/"]
+    helper = 
+    helper = !/usr/local/bin/gh auth git-credential
+[credential "https://gist.github.com/"]
+    helper = 
+    helper = !/usr/local/bin/gh auth git-credential
+[init]
+    defaultBranch = main
+[user]
+    name = Xavier
+    email = xavier_castro@icloud.com
