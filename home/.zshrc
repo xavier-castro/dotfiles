@@ -112,6 +112,7 @@ alias tk="tmux kill-server"
 alias lg="lazygit"
 alias c="claude"
 alias g="git"
+alias geforce-now="SDL_VIDEODRIVER=windows gamemoderun gamescope -W 1920 -H 1080 -r 144 --force-grab-cursor -- geforce-infinity -dx11 --force-cursor"
 
 # Source profile
 source ~/.zsh_profile
