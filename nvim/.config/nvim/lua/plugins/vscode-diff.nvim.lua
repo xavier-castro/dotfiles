@@ -2,9 +2,10 @@
 -- Installed via store.nvim
 
 return {
-    "esmuellert/vscode-diff.nvim",
-    dependencies = {
-        "MunifTanjim/nui.nvim"
-    },
-    cmd = "CodeDiff"
+  "esmuellert/vscode-diff.nvim",
+  dependencies = {
+    "MunifTanjim/nui.nvim",
+  },
+  cmd = "CodeDiff",
 }
+
