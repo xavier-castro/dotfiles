@@ -118,3 +118,5 @@ alias geforce-now="SDL_VIDEODRIVER=windows gamemoderun gamescope -W 1920 -H 1080
 source ~/.zsh_profile
 
 . "$HOME/.local/share/../bin/env"
+
+eval "$(mise activate zsh)"
